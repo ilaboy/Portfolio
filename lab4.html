@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<!--
+	Helios by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Hurricane Maria Leaflet Map</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<!--mapbox library-->
+		<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js'></script>
+		<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css' rel='stylesheet' />
+		<!--google map library -->
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUUesWC4WFt3IXWafrVz7u2J9Eheke9Ys&callback=initMap"></script>
+	</head>
+
+	<body class="no-sidebar is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header">
+
+					<!-- Inner -->
+						<div class="inner">
+							<header>
+								<h1><a href="index.html" id="logo"></a></h1>
+							</header>
+						</div>
+					<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li>
+								<a href="">Portfolio</a>
+								<ul>
+									<li><a href="#">Cartography</a></li>
+									<li><a href="#">Applications</a></li>
+									<li><a href="#">Scripts</a></li>
+								</ul>
+							</li>
+							<li><a href="capstone.html">Capstone</a></li>
+							<li><a href="aboutme.html">About Me</a></li>
+							<li><a href="contact.html">Contact</a></li>
+						</ul>
+					</nav>
+
+			</div>
+			<!-- Main -->
+			<body>
+				<section class="wrapper style1 align-center">
+						<div class="inner">
+							<h2>Live Earthquake Data Feeds</h2>
+							<p>The first map displays a live data feed from the US Geological Survey global earthquake activity. The map was created using Mapbox to illustrate a GeoJSON data that is updated with earthquakes M2.5+ from the last 24 hours. </p>
+							<!-- GeoJSON earthquake map -->
+							<div id='map' style='width: 90vw; height: 75vh;'></div>
+
+							<script>
+								mapboxgl.accessToken = 'pk.eyJ1IjoiaWRhbGlzbGFib3kiLCJhIjoiY2syd3BhaXFkMDM1MTNicnYzdnl5ZTU1aSJ9.sMf0JfpuixHluriTdYN5ww';
+
+								var map = new mapboxgl.Map({
+									container: 'map',
+									style: 'mapbox://styles/idalislaboy/ck3fga3za3rur1cmli79rlypv',
+									center: [-50.527539, 22.694077],
+									zoom: 2
+								});
+
+								map.on('load', function(){
+									map.addSource('earthquakes', {
+												"type": "geojson",
+												"data": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson"
+										});
+
+										map.addLayer({
+											"id":"equakesa",
+											"type":"circle",
+											"source":"earthquakes"
+										});
+								});
+							</script>
+							<br>
+							<!-- KML Data Feed -->
+							<p> The following map displays a live data feed about earthquakes color coded by depth of occurance. The map was created using Google Application Programming Interface (API) to illustrate the data from USGS.
+									<div id='earthquakes' style='width: 90vw; height: 75vh;'></div>
+
+									<script>
+									var mapb;
+									var src='https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month_depth.kml';
+
+									function initMap() {
+										bmap = new google.maps.Map(document.getElementById('earthquakes'), {
+											mapTypeId: 'terrain'
+										});
+
+										var kmlLayer = new google.maps.KmlLayer(src, {
+											preserveViewport: false,
+											map: bmap
+										});
+									}
+									</script>
+							</div>
+						</section>
+					</body>
+				</head>
+		</html>
